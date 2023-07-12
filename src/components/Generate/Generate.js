@@ -18,7 +18,7 @@ function Generate() {
     const data = {
       sample: 1, prompt, 
       negativePrompt:"",
-      model: "midjourney"
+      // model: "midjourney"
       // dimension: {
       //   width: 520,
       //   height: 520
@@ -34,6 +34,7 @@ function Generate() {
     .then(res=>res.json())
     .then(result=>{
       console.log(result.output[0]);
+      console.log(result.meta);
       const {id, meta, output} = result
       if(output){
         setGeneratedImage({id, meta, output})
@@ -48,13 +49,13 @@ function Generate() {
     })
   }
   return (
-    <>
+    <div className=" mt-10 w-[50%] m-auto py-10">
     <MySpeechRecognition />
-    <div >
-      <button className="text-white" onClick={generateImage}>Generate</button>
+    <div className="mx-10">
+      <button className="text-white bg-purple-500 px-3 py-1 rounded-3xl" onClick={generateImage}>Generate</button>
     </div>
     <ToastContainer position="bottom-right" />
-    </>
+    </div>
   );
 }
 

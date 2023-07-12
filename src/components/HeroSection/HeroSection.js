@@ -3,7 +3,7 @@ import React from 'react'
 import Sample1Img from "@/assets/sample1.png"
 function HeroSection() {
   return (
-    <div className="text-white flex justify-center items-center gap-10">
+    <div className="min-h-screen text-white flex justify-center items-center gap-10">
      <div className="w-[45%] p-10">
       <h1 className="  text-6xl font-semibold leading-tight">
           Say <br/>

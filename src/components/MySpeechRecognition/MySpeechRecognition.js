@@ -31,16 +31,22 @@ useEffect(()=>{
   setIsListening(false)
  }
   return (
-    <div>
-      <div className=" w-10 h-10  flex items-center justify-center">
+    <div className="px-10 text-white ">
+      
+      <div className="flex items-center justify-between">
+      
+      <h3 className="text-md mb-5  mt-2">
         {
-          !isListening ? <MdKeyboardVoice onClick={startListening} className="cursor-pointer text-3xl text-white" />
-          : <FaStop onClick={stopListening} className="cursor-pointer text-xl text-red-400"/>
-
+          isListening ? "Listening..." : "Say Something.."
         }
+      </h3>
+      <div className="    flex  items-center  gap-7">
+        <MdKeyboardVoice title="Start Listening" onClick={startListening} className={`hover:text-purple-200 cursor-pointer text-3xl text-white ${isListening && 'text-purple-400'}`} />
+        <FaStop title="Stop Listening" onClick={stopListening} className="cursor-pointer text-xl hover:text-red-500 text-red-400"/>
+      </div>
       </div>
       <div>
-        <textarea className=" outline-none  rounded-md p-2 w-80 h-52" placeholder="Prompt.." value={prompt} onChange={e=>setPrompt(e.target.value)} />
+        <textarea className="text-black outline-none  rounded-md p-2 w-full h-52" placeholder="Prompt.." value={prompt} onChange={e=>setPrompt(e.target.value)} />
       </div>
     </div>
   );
