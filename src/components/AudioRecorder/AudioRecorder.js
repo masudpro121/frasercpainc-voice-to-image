@@ -31,6 +31,7 @@ function AudioRecorder() {
 
   return (
     <div>
+      
       <button onClick={startRecord}>Start</button>
       <button onClick={stopRecord}>Stop</button>
     </div>

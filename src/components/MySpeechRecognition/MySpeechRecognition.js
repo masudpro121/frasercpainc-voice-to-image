@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-
+import { MdKeyboardVoice } from 'react-icons/md';
+import { FaStop } from 'react-icons/fa';
 function MySpeechRecognition() {
   const  [text, setText] = useState('')
   const [isListening, setIsListening] = useState(false)
@@ -30,10 +31,15 @@ useEffect(()=>{
  }
   return (
     <div>
-      <button onClick={startListening}>Start Record</button>
-      <button onClick={stopListening}>Stop Record</button>
+      <div className=" w-10 h-10  flex items-center justify-center">
+        {
+          !isListening ? <MdKeyboardVoice onClick={startListening} className="cursor-pointer text-3xl text-white" />
+          : <FaStop onClick={stopListening} className="cursor-pointer text-xl text-red-400"/>
+
+        }
+      </div>
       <div>
-        {text}
+        <textarea className=" outline-none  rounded-md p-2 w-80 h-52" placeholder="Prompt.." value={text} onChange={e=>setText(e.target.value)} />
       </div>
     </div>
   );
