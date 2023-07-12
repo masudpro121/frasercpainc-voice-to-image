@@ -22,12 +22,12 @@ function ShowImages() {
   }
   return (
    <>
-    <div className="text-white w-full flex flex-wrap gap-5 justify-center">
+    <div className="text-white w-full mx-5 flex mt-10 lg:mt-0 flex-wrap gap-5 justify-center">
       {generatedImage.output &&
         generatedImage.output.map((img, id) => {
           return (
-            <div key={id} className="relative group">
-              <Image src={img} height={300} width={300} />
+            <div key={id} className="relative group ">
+              <Image className="w-[200px] lg:w-[250px] xl:w-[300px]" src={img} height={300} width={300} />
               <div className="invisible group-hover:visible  flex gap-2 absolute bottom-0 right-1">
                 <button onClick={() => handleCopy(img)}>Copy</button>
                 <button onClick={() => handleDownload(img)}>

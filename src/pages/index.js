@@ -12,7 +12,7 @@ export default function Home() {
     <div className="bg-slate-900 min-h-screen">
       <Navbar />
       <HeroSection />
-      <div className="flex">
+      <div className="lg:flex py-20">
         <Generate />
         <ShowImages />
       </div>
