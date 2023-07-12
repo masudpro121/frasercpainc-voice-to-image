@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import Navbar from "@/components/Navbar/Navbar"
 import HeroSection from "@/components/HeroSection/HeroSection"
 import Generate from "@/components/Generate/Generate"
+import ShowImages from "@/components/ShowImages/ShowImages"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,7 +12,10 @@ export default function Home() {
     <div className="bg-slate-900 min-h-screen">
       <Navbar />
       <HeroSection />
-      <Generate />
+      <div className="flex">
+        <Generate />
+        <ShowImages />
+      </div>
     </div>
   )
 }

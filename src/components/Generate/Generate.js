@@ -8,15 +8,15 @@ function Generate() {
   const [inprogress, setInprogress] = useState(false)
   const [negativePrompt, setNegativePrompt] = useState('')
   const [model, setModel] = useState('')
-  const [generatedImage, setGeneratedImage] = useState({})
-  const {prompt, setPrompt} = useContext(MyContext)
+  
+  const {prompt, setPrompt,  setGeneratedImage} = useContext(MyContext)
 
   const generateImage = () =>{
     setInprogress(true)
     setPrompt('')
     setNegativePrompt('')
     const data = {
-      sample: 1, prompt, 
+      sample: 4, prompt, 
       negativePrompt:"",
       // model: "midjourney"
       // dimension: {
@@ -49,12 +49,12 @@ function Generate() {
     })
   }
   return (
-    <div className=" mt-10 w-[50%] m-auto py-10">
+    <div className="w-full">
     <MySpeechRecognition />
     <div className="mx-10">
       <button className="text-white bg-purple-500 px-3 py-1 rounded-3xl" onClick={generateImage}>Generate</button>
     </div>
-    <ToastContainer position="bottom-right" />
+    <ToastContainer position="bottom-right" autoClose={1000} />
     </div>
   );
 }
