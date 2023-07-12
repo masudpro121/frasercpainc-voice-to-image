@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MdKeyboardVoice } from 'react-icons/md';
 import { FaStop } from 'react-icons/fa';
+import { MyContext } from "@/pages/_app";
 function MySpeechRecognition() {
-  const  [text, setText] = useState('')
+  const  {prompt, setPrompt} = useContext(MyContext)
   const [isListening, setIsListening] = useState(false)
  let recognition = null
  if('webkitSpeechRecognition' in global){
@@ -17,11 +18,11 @@ useEffect(()=>{
       texts.push(event.results[i][0].transcript)
     }
 
-    setText(texts.join(". "))
+    setPrompt(texts.join(". "))
   }
 },[])
  const startListening = () => {
-  setText('')
+  setPrompt('')
   setIsListening(true)
   recognition.start()
  }
@@ -39,7 +40,7 @@ useEffect(()=>{
         }
       </div>
       <div>
-        <textarea className=" outline-none  rounded-md p-2 w-80 h-52" placeholder="Prompt.." value={text} onChange={e=>setText(e.target.value)} />
+        <textarea className=" outline-none  rounded-md p-2 w-80 h-52" placeholder="Prompt.." value={prompt} onChange={e=>setPrompt(e.target.value)} />
       </div>
     </div>
   );
