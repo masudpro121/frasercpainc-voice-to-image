@@ -5,11 +5,11 @@ import MySpeechRecognition from "../MySpeechRecognition/MySpeechRecognition";
 import { MyContext } from "@/pages/_app";
 
 function Generate() {
-  const [inprogress, setInprogress] = useState(false)
+  
   const [negativePrompt, setNegativePrompt] = useState('')
   const [model, setModel] = useState('')
   
-  const {prompt, setPrompt,  setGeneratedImage} = useContext(MyContext)
+  const {prompt, setPrompt,  setGeneratedImage, inprogress, setInprogress}  = useContext(MyContext)
 
   const generateImage = () =>{
     setInprogress(true)
@@ -33,8 +33,6 @@ function Generate() {
     })
     .then(res=>res.json())
     .then(result=>{
-      console.log(result.output[0]);
-      console.log(result.meta);
       const {id, meta, output} = result
       if(output){
         setGeneratedImage({id, meta, output})

@@ -4,9 +4,11 @@ export const MyContext = createContext()
 export default function App({ Component, pageProps }) {
   const [prompt, setPrompt] = useState('')
   const [generatedImage, setGeneratedImage] = useState({})
+  const [inprogress, setInprogress] = useState(false)
   const value = {
     prompt, setPrompt,
-    generatedImage, setGeneratedImage
+    generatedImage, setGeneratedImage,
+    inprogress, setInprogress
   }
   return <MyContext.Provider value={value}>
     <Component {...pageProps} />

@@ -5,26 +5,30 @@ import { MyContext } from "@/pages/_app";
 function MySpeechRecognition() {
   const { prompt, setPrompt } = useContext(MyContext);
   const [isListening, setIsListening] = useState(false);
-  let recognition = null;
-  if ("webkitSpeechRecognition" in global) {
-    recognition = new webkitSpeechRecognition();
-    recognition.continuous = true;
-    recognition.lang = "en-US";
-  }
-  useEffect(() => {
-    recognition.onresult = (event) => {
-      let texts = [];
-      for (let i = 0; i < event.results.length; i++) {
-        texts.push(event.results[i][0].transcript);
-      }
+  const [recognition, setRecognition] = useState(null)
+  const RecognitionResult = (event) => {
+    let texts = [];
+    for (let i = 0; i < event.results.length; i++) {
+      texts.push(event.results[i][0].transcript);
+    }
+    setPrompt(texts.join(". "));
+  };
+  useEffect(()=>{
+    if("webkitSpeechRecognition" in global){
+      let rec = new webkitSpeechRecognition()
+      rec.continuous = true;
+      rec.lang = "en-US";
+      rec.onresult = RecognitionResult
+      setRecognition(rec)
+    }
+  },[])
+  
 
-      setPrompt(texts.join(". "));
-    };
-  }, []);
   const startListening = () => {
     setPrompt("");
-    setIsListening(true);
     recognition.start();
+    console.log(recognition);
+    setIsListening(true);
   };
   const stopListening = () => {
     recognition.stop();
@@ -37,13 +41,13 @@ function MySpeechRecognition() {
           {isListening ? "Listening..." : "Say Something.."}
         </h3>
         <div className=" flex  items-center  gap-7">
-          <MdKeyboardVoice
-            title="Start Listening"
-            onClick={startListening}
-            className={`hover:text-purple-200 cursor-pointer text-3xl text-white ${
-              isListening && "text-purple-400"
-            }`}
-          />
+          <button disabled={isListening}  onClick={startListening}>
+            <MdKeyboardVoice
+              type="button"
+              title="Start Listening"
+              className="hover:text-purple-200 cursor-pointer text-3xl text-white "
+            />
+          </button>
           <FaStop
             title="Stop Listening"
             onClick={stopListening}
