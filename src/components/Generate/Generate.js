@@ -47,9 +47,9 @@ function Generate() {
     })
   }
   return (
-    <div className="w-full">
+    <div className="  md:max-w-[1000px] m-auto ">
     <MySpeechRecognition />
-    <div className="mx-10">
+    <div className="mx-10 mt-3">
       <button className="text-white bg-purple-500 px-3 py-1 rounded-3xl" onClick={generateImage}>Generate</button>
     </div>
     <ToastContainer position="bottom-right" autoClose={1000} />

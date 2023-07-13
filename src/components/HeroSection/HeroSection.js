@@ -2,6 +2,7 @@ import Image from "next/image"
 import React from 'react'
 import Sample1Img from "@/assets/sample1.png"
 import SpeakerImg from "@/assets/speaker.png"
+import Link from "next/link"
 function HeroSection() {
   return (
     <div className=" text-white sm:flex justify-center items-center gap-10">
@@ -15,9 +16,11 @@ function HeroSection() {
         <p className="mt-5 text-md md:text-xl font-light">
           Convert voice into an image in mere sounds with the Kreart.ai Image generator. Say a detailed description and watch your words transform into a vibrant piece of art
         </p>
-        {/* <div className="mt-7">
-          <button className=" bg-purple-500 px-7  py-2 rounded-3xl font-semibold">Start the Journey</button>
-        </div> */}
+        <div className="mt-7">
+          <Link href="/generate">
+          <button className="bg-purple-500 px-7  py-2 rounded-3xl font-semibold">Start the Journey</button>
+          </Link>
+        </div>
      </div>
      <div className=" w-[90%] m-auto sm:w-[45%]  px-5 mt-14">
       <div className="flex  gap-5  items-center mb-4">

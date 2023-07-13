@@ -11,7 +11,7 @@ function MySpeechRecognition() {
     for (let i = 0; i < event.results.length; i++) {
       texts.push(event.results[i][0].transcript);
     }
-    setPrompt(texts.join(". "));
+    setPrompt(texts.join(" "));
   };
   useEffect(()=>{
     if("webkitSpeechRecognition" in global){
@@ -57,7 +57,7 @@ function MySpeechRecognition() {
       </div>
       <div>
         <textarea
-          className="text-black outline-none  rounded-md p-2 w-full h-52"
+          className="text-white bg-slate-900 outline-none  rounded-md p-2 w-full h-52"
           placeholder="Prompt.."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}

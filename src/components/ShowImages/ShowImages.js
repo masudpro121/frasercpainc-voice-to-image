@@ -23,7 +23,7 @@ function ShowImages() {
   }
   return (
    <>
-    <div className="text-white w-full  flex mt-10 lg:mt-0 flex-wrap gap-5 justify-center">
+    <div className="text-white w-full  flex mt-10  flex-wrap gap-5 justify-center">
       {generatedImage.output && !inprogress &&
         generatedImage.output.map((img, id) => {
           return (
