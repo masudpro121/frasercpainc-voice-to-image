@@ -5,7 +5,7 @@ import SpeakerImg from "@/assets/speaker.png"
 import Link from "next/link"
 function HeroSection() {
   return (
-    <div className=" text-white sm:flex justify-center items-center gap-10">
+    <div className=" text-white sm:flex justify-center items-center gap-10 ">
      <div className="sm:w-[45%] p-10">
       <h1 className=" text-3xl sm:text-4xl md:text-5px lg:text-6xl font-semibold leading-tight">
           Say <br/>

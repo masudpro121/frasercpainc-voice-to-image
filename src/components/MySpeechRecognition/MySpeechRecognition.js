@@ -57,7 +57,7 @@ function MySpeechRecognition() {
       </div>
       <div>
         <textarea
-          className="text-white bg-slate-900 outline-none  rounded-md p-2 w-full h-52"
+          className="text-white bg-black outline-none  rounded-md p-2 w-full h-52"
           placeholder="Prompt.."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}

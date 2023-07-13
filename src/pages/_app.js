@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }) {
     inprogress, setInprogress
   }
   return <MyContext.Provider value={value}>
-    <div className="bg-slate-950 min-h-screen">
+    <div className="bg-black min-h-screen">
       <Navbar />
       <Component {...pageProps} />
     </div>

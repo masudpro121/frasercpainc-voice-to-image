@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar/Navbar"
 import HeroSection from "@/components/HeroSection/HeroSection"
 import Generate from "@/components/Generate/Generate"
 import ShowImages from "@/components/ShowImages/ShowImages"
+import Gallery from "@/components/Gallery/Gallery"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <div >
       <HeroSection />
+      <Gallery />
     </div>
   )
 }

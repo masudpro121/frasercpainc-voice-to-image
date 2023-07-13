@@ -3,7 +3,7 @@ import React from 'react'
 
 function Navbar() {
   return (
-    <div className=" mx-5 sm:mx-20  py-2 text-white flex items-center gap-5 justify-center">
+    <div className=" sticky top-0 bg-slate-950 px-5 sm:px-20  py-2 text-white flex items-center gap-5 justify-center">
       <div className="w-[47%]">
         <h3 className="text-xl sm:text-2xl font-bold italic">Kreact.ai</h3>
       </div>
@@ -11,7 +11,7 @@ function Navbar() {
         <Link href="/">
           <p>Home</p>
         </Link>
-        <Link href="/gallery">
+        <Link href="/#gallery">
           <p>Gallery</p>
         </Link>
         <Link href="/explore">
