@@ -7,25 +7,27 @@ import DownloadImg from "@/assets/download.png"
 import ShareImg from "@/assets/share.png"
 function Gallery() {
   return (
-    <div id="gallery" className="text-white pt-28 min-h-screen ">
-      <h1 className=" text-6xl font-bold text-center">How to Generate your Images</h1>
-      <div className="flex gap-10 justify-center mt-20">
+    <div id="gallery" className="  flex justify-center sm:items-center text-white min-h-screen ">
+      <div className="mx-5 mt-20 sm:mt-0">
+      <h1 className=" text-3xl sm:text-6xl break-words font-bold text-center">How to Generate your Images</h1>
+      <div className="flex gap-20 sm:gap-10 justify-center mt-10 sm:mt-20 flex-wrap">
         <div className=" w-[300px] h-[300px]">
           <Image className="w-full h-full"  src={SpeakingImg}  />
-          <h3 className="text-2xl text-center mt-5 font-light">RECORD YOUR VOICE</h3>
+          <h3 className="text-xl sm:text-2xl text-center sm:mt-5 font-light">RECORD YOUR VOICE</h3>
         </div>
         <div className=" w-[300px] h-[300px]">
           <Image className="w-full h-full" src={TapImg}  />
-          <h3 className="text-2xl text-center mt-5 font-light break-words">CHOOSE THE IMAGE THAT FITS YOUR VISION</h3>
+          <h3 className="text-xl sm:text-2xl text-center sm:mt-5 font-light break-words">CHOOSE THE IMAGE THAT FITS YOUR VISION</h3>
         </div>
-        <div className=" w-[300px] h-[300px]">
+        <div className=" w-[300px] h-[300px] mt-10 sm:mt-0">
           <Image className=" w-full h-[270px]" src={SampleImg}  />
           <div className="flex h-[30px] mt-2 justify-between">
             <Image className="w-8" src={DownloadImg}  />
             <Image className="w-8" src={ShareImg}  />
           </div>
-          <h3 className="text-2xl text-center mt-5 font-light">SHARE YOUR DESIGN</h3>
+          <h3 className="text-xl sm:text-2xl text-center sm:mt-5 font-light">SHARE YOUR DESIGN</h3>
         </div>
+      </div>
       </div>
     </div>
   )
