@@ -6,7 +6,7 @@ const axios = require("axios");
 
 export default async function handler(req, res) {
   if (req.method == "POST") {
-    const { sample, dimension, prompt, negativePrompt, model } = req.body;
+    const { sample, dimension, prompt, negativePrompt="nude, porn, adult", model } = req.body;
     generate({ sample, dimension, prompt, negativePrompt, model })
       .then(async (result) => {
         res.json(result);
@@ -28,7 +28,7 @@ const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
     samples: sample,
     num_inference_steps: "20",
     safety_checker: "no",
-    enhance_prompt: "no",
+    enhance_prompt: "yes",
     seed: null,
     guidance_scale: 7.5,
     multi_lingual: "no",
@@ -50,7 +50,7 @@ const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
       "samples": sample,
       "num_inference_steps": "30",
       "safety_checker": "no",
-      "enhance_prompt": "no",
+      "enhance_prompt": "yes",
       "seed": null,
       "guidance_scale": 7.5,
       "multi_lingual": "no",

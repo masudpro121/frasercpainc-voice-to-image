@@ -3,14 +3,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import MySpeechRecognition from "../MySpeechRecognition/MySpeechRecognition";
 import { MyContext } from "@/pages/_app";
-
+import withAuth from "@/HOCS/withAuth";
+import { getLimit, setLimit } from "@/utils/limit";
 function Generate() {
-  
   const [negativePrompt, setNegativePrompt] = useState('')
   const [model, setModel] = useState('')
   
   const {prompt, setPrompt,  setGeneratedImage, inprogress, setInprogress}  = useContext(MyContext)
-
+  
   const generateImage = () =>{
     setInprogress(true)
     setPrompt('')
@@ -18,7 +18,7 @@ function Generate() {
     const data = {
       sample: 4, prompt, 
       negativePrompt:"",
-      // model: "midjourney"
+      model: "midjourney"
       // dimension: {
       //   width: 520,
       //   height: 520
@@ -36,6 +36,12 @@ function Generate() {
       const {id, meta, output} = result
       if(output){
         setGeneratedImage({id, meta, output})
+        
+        if(getLimit()){
+          setLimit(Number(getLimit())+1)
+        }else{
+          setLimit(1)
+        }
       }else{
         toast('Something wrong! Try again.')
       }
@@ -57,4 +63,4 @@ function Generate() {
   );
 }
 
-export default Generate;
+export default withAuth(Generate);
