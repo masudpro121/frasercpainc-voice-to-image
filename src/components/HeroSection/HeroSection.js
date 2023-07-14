@@ -2,6 +2,7 @@ import Image from "next/image"
 import React from 'react'
 import Sample1Img from "@/assets/sample1.png"
 import SpeakerImg from "@/assets/speaker.png"
+import VoiceGif from "@/assets/voice.gif"
 import Link from "next/link"
 function HeroSection() {
   return (
@@ -28,6 +29,7 @@ function HeroSection() {
       <p className="text-md sm:text-2xl mb-5 italic mt-2 ">Black king standing under rainbow</p>
       </div>
       <Image className="w-full sm:w-[80%]" src={Sample1Img} height={500} width={500} />
+      <Image src={VoiceGif} className="w-full sm:w-[80%]" />
      </div>
     </div>
   )
