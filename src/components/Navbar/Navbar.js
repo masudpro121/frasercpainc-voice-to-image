@@ -11,10 +11,10 @@ function Navbar() {
         <Link href="/">
           <p>Home</p>
         </Link>
-        <Link href="/#gallery">
+        <Link href="/">
           <p>Gallery</p>
         </Link>
-        <Link href="/explore">
+        <Link href="/">
           <p>Explore</p>
         </Link>
       </div>

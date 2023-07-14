@@ -6,10 +6,12 @@ export default function App({ Component, pageProps }) {
   const [prompt, setPrompt] = useState('')
   const [generatedImage, setGeneratedImage] = useState({})
   const [inprogress, setInprogress] = useState(false)
+  const [user, setUser] = useState({})
   const value = {
     prompt, setPrompt,
     generatedImage, setGeneratedImage,
-    inprogress, setInprogress
+    inprogress, setInprogress,
+    user, setUser  
   }
   return <MyContext.Provider value={value}>
     <div className="bg-black min-h-screen">
