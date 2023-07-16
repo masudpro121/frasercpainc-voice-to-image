@@ -6,7 +6,7 @@ import { initializeApp } from "firebase/app";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBKPrhWQXEr_81AJFsmG3Dn_wf24rS-N58",
+  apiKey: process.env.FIREBASE_API,
   authDomain: "kreact-ai.firebaseapp.com",
   projectId: "kreact-ai",
   storageBucket: "kreact-ai.appspot.com",

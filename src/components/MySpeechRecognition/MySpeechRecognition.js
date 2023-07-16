@@ -120,7 +120,10 @@ function MySpeechRecognition() {
       </div>
     </div>
     <div className="mx-10 mt-3 flex justify-between">
-      <button className="text-white bg-purple-500 px-3 py-1 rounded-3xl" onClick={generateImage}>Generate</button>
+      {
+        inprogress ? <button className="text-white bg-purple-500 px-3 py-1 rounded-3xl" onClick={()=>window.location.reload()}>Stop Generate</button>
+        : <button className="text-white bg-purple-500 px-3 py-1 rounded-3xl" onClick={generateImage}>Generate</button>
+      }
       <p>{prompt.length}/600</p>
     </div>
     </>

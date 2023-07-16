@@ -13,7 +13,6 @@ function Generate() {
   return (
     <div className="  md:max-w-[1000px] m-auto ">
     <MySpeechRecognition />
-    
     <ToastContainer position="bottom-right" autoClose={1000} />
     </div>
   );

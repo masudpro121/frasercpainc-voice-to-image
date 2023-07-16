@@ -6,9 +6,16 @@ function signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [dob, setDob] = useState(new Date());
+  const [dob, setDob] = useState();
   const handleSignup = (e) => {
     e.preventDefault();
+    let d = new Date(dob)
+    let ageInMilisecond =  new Date() - d
+    let age = (ageInMilisecond/(1000*3600*24*365))
+    if(age<10){
+      console.log(age);
+      return;
+    }
     fetch("/api/auth/signup", {
       method: "POST",
       headers: {
@@ -48,6 +55,7 @@ function signup() {
             id="name"
             value={name}
             onChange={(t) => setName(t.target.value)}
+            required
             type="text"
             placeholder="Name"
             className="placeholder:text-white"
@@ -58,6 +66,7 @@ function signup() {
           <input
             id="email"
             value={email}
+            required
             onChange={(t) => setEmail(t.target.value)}
             type="email"
             placeholder="Email"
@@ -70,6 +79,7 @@ function signup() {
             id="pass"
             value={password}
             onChange={(t) => setPassword(t.target.value)}
+            required
             type="password"
             placeholder="Password"
             className="placeholder:text-white"
@@ -80,6 +90,7 @@ function signup() {
           <input
             id="date"
             value={dob}
+            required
             onChange={(t) => setDob(t.target.value)}
             type="date"
             className="placeholder:text-white"
