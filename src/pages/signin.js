@@ -23,8 +23,7 @@ function Signin() {
     .then(res=>{
       setCookie("token", res.token)
       setCookie("name", res.name)
-      setCookie("email", res.email)
-      setUser({email: res.email, name: res.name})
+      setUser({ name: res.name})
       window.location.href = "/generate"
     })
     .catch(err=>{

@@ -6,6 +6,7 @@ function signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [dob, setDob] = useState(new Date());
   const handleSignup = (e) => {
     e.preventDefault();
     fetch("/api/auth/signup", {
@@ -17,11 +18,12 @@ function signup() {
         name,
         email,
         password,
+        dob
       }),
     })
       .then((res) => res.json())
       .then((res) => {
-        window.location.href = "/signin"
+        // window.location.href = "/signin"
         console.log(res, "signup");
       })
       .catch(err=>{
@@ -77,8 +79,8 @@ function signup() {
           </label>
           <input
             id="date"
-            value={password}
-            onChange={(t) => setPassword(t.target.value)}
+            value={dob}
+            onChange={(t) => setDob(t.target.value)}
             type="date"
             className="placeholder:text-white"
           />

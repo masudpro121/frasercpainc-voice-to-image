@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const {v4} = require('uuid')
+
 
 const UserSchema = new mongoose.Schema({
   name : String,
@@ -10,7 +10,6 @@ const UserSchema = new mongoose.Schema({
   uid: {
     type: String,
     unique: true, 
-    default: v4()
   },
   password: {
     type: String,
@@ -20,7 +19,7 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 10
   },
-  date: String
+  dob: Date
 })
 
 const UserModel = mongoose.models.User || mongoose.model('User', UserSchema)

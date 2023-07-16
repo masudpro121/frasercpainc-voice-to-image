@@ -13,8 +13,14 @@ export default async function signin(req, res){
       const user = await UserModel.findOne({email})
       const hash = user.password
       const isMatched = bcrypt.compareSync(password, hash);
-      const jwtToken = createJwtToken({email, name:user.name, id: user._id})
-      res.send({status:'ok', token: jwtToken, name:user.name, email: user.email})
+      if(isMatched){
+        const jwtToken = createJwtToken({name:user.name, uid: user.uid})
+        res.send({status:'ok', token: jwtToken, name:user.name})
+      }else{
+        res.status(500).json({error:'Password not matched'})
+      }
+      
+      
     }
   }catch(err){
     console.log(err);

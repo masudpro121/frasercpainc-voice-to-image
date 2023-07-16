@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { getAuth, signInWithPopup,FacebookAuthProvider , GoogleAuthProvider } from "firebase/auth";
 import firebaseInit from "@/libs/firebase";
 import AppleLogo from "@/assets/apple.png";
@@ -6,7 +6,12 @@ import TwitterLogo from "@/assets/twitter.png";
 import FbLogo from "@/assets/fb.png";
 import GoogleLogo from "@/assets/google.png";
 import Image from "next/image";
+import { useCookies } from "react-cookie";
+import { MyContext } from "@/pages/_app";
+
 function SocialSignin() {
+  const [cookies, setCookie, removeCookie] = useCookies(['cookie']);
+  const {setUser} = useContext(MyContext)
   const googleLogin = async () => {
     await firebaseInit();
     const provider = new GoogleAuthProvider();
@@ -30,7 +35,10 @@ function SocialSignin() {
         })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res, "signup");
+          setCookie("token", res.token)
+          setCookie("name", res.name)
+          setUser({ name: res.name})
+          window.location.href = "/generate"
         })
         .catch(err=>{
           console.log(err)
