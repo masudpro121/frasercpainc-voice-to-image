@@ -1,3 +1,4 @@
+import SocialSignin from "@/components/SocialSignin/SocialSignin";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -28,17 +29,18 @@ function signup() {
       })
   };
   return (
-    <div>
+    <div >
+      
       <form
         onSubmit={handleSignup}
         className=" text-slate-950 flex justify-center  "
       >
-        <div className="w-full max-w-[450px] m-10 mt-20 rounded-md gap-2 flex flex-col [&>*]:rounded-sm [&>input]:px-2 [&>input]:py-1 [&>input]:outline-none [&>input]:mb-2  p-7 bg-slate-950">
+        <div className=" w-full max-w-[450px] m-10 mt-20 rounded-md gap-2 flex flex-col [&>*]:rounded-3xl [&>input]:px-3 [&>input]:bg-zinc-400 text-white [&>input]:py-2 [&>input]:outline-none [&>input]:mb-2  p-7 bg-zinc-600 [&>label]:mb-[-5px] [&>label]:ml-2 [&>label]:font-semibold [&>label]:text-sm">
           <h1 className="text-2xl font-bold text-white text-center mb-5">
             Signup
           </h1>
           <label className="text-white" htmlFor="name">
-            Name:
+            NAME:
           </label>
           <input
             id="name"
@@ -46,9 +48,10 @@ function signup() {
             onChange={(t) => setName(t.target.value)}
             type="text"
             placeholder="Name"
+            className="placeholder:text-white"
           />
           <label className="text-white" htmlFor="email">
-            Email:
+            EMAIL:
           </label>
           <input
             id="email"
@@ -56,9 +59,10 @@ function signup() {
             onChange={(t) => setEmail(t.target.value)}
             type="email"
             placeholder="Email"
+            className="placeholder:text-white"
           />
           <label className="text-white" htmlFor="pass">
-            Password
+            PASSWORD
           </label>
           <input
             id="pass"
@@ -66,16 +70,30 @@ function signup() {
             onChange={(t) => setPassword(t.target.value)}
             type="password"
             placeholder="Password"
+            className="placeholder:text-white"
           />
-          <button className=" bg-purple-500 text-white px-2 ">Submit</button>
+          <label className="text-white" htmlFor="date">
+            Date of Birth
+          </label>
+          <input
+            id="date"
+            value={password}
+            onChange={(t) => setPassword(t.target.value)}
+            type="date"
+            className="placeholder:text-white"
+          />
+          <button className=" bg-purple-500 text-white px-2 py-1 ">Submit</button>
         </div>
       </form>
-      <div className="flex justify-center gap-2">
+      <SocialSignin />
+
+      <div className="flex justify-center gap-2 text-sm">
         <p className="text-white">Already have an account?</p>
-        <p className=" text-purple-400">
+        <p className=" text-purple-500">
           <Link href="/signin">Signin</Link>
         </p>
       </div>
+      
     </div>
   );
 }
