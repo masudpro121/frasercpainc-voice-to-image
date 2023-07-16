@@ -12,15 +12,36 @@ function SocialSignin() {
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
    
+    // Google Login 
     signInWithPopup(auth, provider)
       .then((result) => {
-        const user = result.user;
-        console.log(user);
+        console.log(result);
+        const {displayName, email, uid} = result.user;
+        fetch("/api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: displayName,
+            email,
+            uid,
+          })
+        })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res, "signup");
+        })
+        .catch(err=>{
+          console.log(err)
+        })
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  // Facebook Login 
   const facebookLogin = async () => {
     await firebaseInit();
     const provider = new FacebookAuthProvider();
