@@ -3,15 +3,25 @@ import { MdKeyboardVoice } from "react-icons/md";
 import { FaStop } from "react-icons/fa";
 import { MyContext } from "@/pages/_app";
 function MySpeechRecognition() {
-  const { prompt, setPrompt } = useContext(MyContext);
+  const {prompt, setPrompt,  setGeneratedImage, inprogress, setInprogress}  = useContext(MyContext)
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null)
+  const [negativePrompt, setNegativePrompt] = useState('')
+  const [model, setModel] = useState('')
+
+  const setPromptHandler = (text) => {
+   
+    if(true){
+      setPrompt(text)
+    }
+  }
+
   const RecognitionResult = (event) => {
     let texts = [];
     for (let i = 0; i < event.results.length; i++) {
       texts.push(event.results[i][0].transcript);
     }
-    setPrompt(texts.join(" "));
+    setPromptHandler(texts.join(" "))
   };
   useEffect(()=>{
     if("webkitSpeechRecognition" in global){
@@ -34,7 +44,51 @@ function MySpeechRecognition() {
     recognition.stop();
     setIsListening(false);
   };
+
+  const generateImage = () =>{
+    stopListening()
+    setInprogress(true)
+    setPrompt('')
+    setNegativePrompt('')
+    const data = {
+      sample: 4, prompt, 
+      negativePrompt:"",
+      // model: "midjourney"
+      // dimension: {
+      //   width: 520,
+      //   height: 520
+      // },
+    }
+    fetch('/api/generate-image', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      }, 
+      body: JSON.stringify(data)
+    })
+    .then(res=>res.json())
+    .then(result=>{
+      const {id, meta, output} = result
+      if(output){
+        setGeneratedImage({id, meta, output})
+        
+        if(getLimit()){
+          setLimit(Number(getLimit())+1)
+        }else{
+          setLimit(1)
+        }
+      }else{
+        toast('Something wrong! Try again.')
+      }
+      setInprogress(false)
+    })
+    .catch(err=>{
+      setInprogress(false)
+      console.log(err);
+    })
+  }
   return (
+    <>
     <div className="px-10 text-white ">
       <div className="flex items-center justify-between">
         <h3 className="text-md mb-5  mt-2">
@@ -59,11 +113,17 @@ function MySpeechRecognition() {
         <textarea
           className="text-white bg-black outline-none  rounded-md p-2 w-full h-52"
           placeholder="Prompt.."
+          maxLength={600}
           value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
+          onChange={(e) => setPromptHandler(e.target.value)}
         />
       </div>
     </div>
+    <div className="mx-10 mt-3 flex justify-between">
+      <button className="text-white bg-purple-500 px-3 py-1 rounded-3xl" onClick={generateImage}>Generate</button>
+      <p>{prompt.length}/600</p>
+    </div>
+    </>
   );
 }
 
