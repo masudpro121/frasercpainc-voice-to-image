@@ -79,7 +79,7 @@ function Signin() {
         <div className="flex gap-2">
           <p className="text-white">Lost your password?</p>
           <p className=" text-purple-400">
-            <Link href="/forgot">Reset</Link>
+            <Link href="/reset">Reset</Link>
           </p>
         </div>
         <div className="flex gap-2">

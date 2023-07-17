@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function forgot() {
+function reset() {
   const [securityKey, setSecurityKey] = useState("");
   const [dob, setDob] = useState("");
   const [email, setEmail] = useState("");
@@ -98,7 +98,7 @@ function forgot() {
       >
         <div className=" w-full max-w-[450px] m-10 mt-20 rounded-md gap-2 flex flex-col [&>*]:rounded-3xl [&>input]:px-3 [&>input]:bg-zinc-400 text-white [&>input]:py-2 [&>input]:outline-none [&>input]:mb-2  p-7 bg-zinc-600 [&>label]:mb-[-5px] [&>label]:ml-2 [&>label]:font-semibold [&>label]:text-sm">
           <h1 className="text-2xl font-bold text-white text-center mb-5">
-            Change Password
+            Reset Password
           </h1>
           <label className="text-white" htmlFor="pass">
             NEW PASSWORD
@@ -120,4 +120,4 @@ function forgot() {
   )
 }
 
-export default forgot
+export default reset
