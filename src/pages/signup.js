@@ -6,7 +6,8 @@ function signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [dob, setDob] = useState();
+  const [securityKey, setSecurityKey] = useState("");
+  const [dob, setDob] = useState("");
   const handleSignup = (e) => {
     e.preventDefault();
     let d = new Date(dob)
@@ -25,12 +26,13 @@ function signup() {
         name,
         email,
         password,
-        dob
+        dob,
+        securityKey
       }),
     })
       .then((res) => res.json())
       .then((res) => {
-        // window.location.href = "/signin"
+        window.location.href = "/signin"
         console.log(res, "signup");
       })
       .catch(err=>{
@@ -57,7 +59,7 @@ function signup() {
             onChange={(t) => setName(t.target.value)}
             required
             type="text"
-            placeholder="Name"
+            placeholder="John"
             className="placeholder:text-white"
           />
           <label className="text-white" htmlFor="email">
@@ -69,7 +71,7 @@ function signup() {
             required
             onChange={(t) => setEmail(t.target.value)}
             type="email"
-            placeholder="Email"
+            placeholder="john@gmail.com"
             className="placeholder:text-white"
           />
           <label className="text-white" htmlFor="pass">
@@ -93,6 +95,18 @@ function signup() {
             required
             onChange={(t) => setDob(t.target.value)}
             type="date"
+            className="placeholder:text-white"
+          />
+          <label className="text-white" htmlFor="security">
+            Last 4 digit of your NID 
+          </label>
+          <input
+            id="security"
+            value={securityKey}
+            required
+            onChange={(t) => setSecurityKey(t.target.value)}
+            type="text"
+            placeholder="1290"
             className="placeholder:text-white"
           />
           <button className=" bg-purple-500 text-white px-2 py-1 ">Submit</button>

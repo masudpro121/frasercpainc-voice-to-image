@@ -19,7 +19,8 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 10
   },
-  dob: Date
+  dob: Date,
+  securityKey: String
 })
 
 const UserModel = mongoose.models.User || mongoose.model('User', UserSchema)

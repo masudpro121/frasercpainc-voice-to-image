@@ -38,7 +38,7 @@ function SocialSignin() {
           setCookie("token", res.token)
           setCookie("name", res.name)
           setUser({ name: res.name})
-          window.location.href = "/generate"
+          // window.location.href = "/generate"
         })
         .catch(err=>{
           console.log(err)

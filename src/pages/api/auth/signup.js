@@ -9,7 +9,7 @@ export default async function signup(req, res){
   try{
     if(req.method=='POST'){
       await dbConnect()
-      const {name, email, password, uid, dob} = req.body
+      const {name, email, password, uid, dob, securityKey} = req.body
 
       if(uid){
         console.log('has  uid');
@@ -44,7 +44,7 @@ export default async function signup(req, res){
       }else{
         const hashedPass = bcrypt.hashSync(password, salt);
         const user = new UserModel({
-          name, email, password:hashedPass, dob, uid: v4()
+          name, email, password:hashedPass, dob, uid: v4(), securityKey
         })
         user.save()
         .then(()=>{

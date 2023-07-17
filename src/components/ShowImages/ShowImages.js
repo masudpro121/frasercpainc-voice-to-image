@@ -2,7 +2,7 @@ import { MyContext } from "@/pages/_app";
 import MyImage from "next/image";
 import React, { useContext } from "react";
 import useDownloader from "react-use-downloader";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { IoMdCloudDownload } from "react-icons/io";
 import { BiSolidCopy } from "react-icons/bi";

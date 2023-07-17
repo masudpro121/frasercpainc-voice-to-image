@@ -9,11 +9,11 @@ const withAuth = Component => {
     const [isLoggedIn, setIsLoggedIn] = useState("null")
     const {setUser} = useContext(MyContext)
     useEffect(()=>{
-      setUser({name:cookies.name, email:cookies.email})
-      if(cookies.email){
+      setUser({name:cookies.name})
+      if(cookies.token){
         setIsLoggedIn(true)
       }
-      if(!cookies.email){
+      if(!cookies.token){
         setIsLoggedIn(false)
       }
     },[])
