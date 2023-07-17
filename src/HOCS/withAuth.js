@@ -5,9 +5,9 @@ import { useCookies } from "react-cookie";
 import { getLimit, setLimit } from "@/utils/limit";
 const withAuth = Component => {
   const Auth = (props) => {
-    const [cookies, setCookie, removeCookie] = useCookies(['cookie']);
-    const [isLoggedIn, setIsLoggedIn] = useState("null")
-    const {setUser} = useContext(MyContext)
+    const [cookies, setCookie, removeCookie,] = useCookies(['cookie']);
+    
+    const {setUser, isLoggedIn, setIsLoggedIn} = useContext(MyContext)
     useEffect(()=>{
       setUser({name:cookies.name})
       if(cookies.token){

@@ -3,13 +3,26 @@ import "@/styles/globals.css";
 import Head from "next/head";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 export const MyContext = createContext();
 export default function App({ Component, pageProps }) {
   const [prompt, setPrompt] = useState("");
   const [generatedImage, setGeneratedImage] = useState({});
   const [inprogress, setInprogress] = useState(false);
   const [user, setUser] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState("null")
+  const [cookies, setCookie, removeCookie,] = useCookies(['cookie']);
+  
+  useEffect(()=>{
+    setUser({name:cookies.name})
+    if(cookies.token){
+      setIsLoggedIn(true)
+    }
+    if(!cookies.token){
+      setIsLoggedIn(false)
+    }
+  },[])
   const value = {
     prompt,
     setPrompt,
@@ -19,6 +32,7 @@ export default function App({ Component, pageProps }) {
     setInprogress,
     user,
     setUser,
+    isLoggedIn, setIsLoggedIn
   };
   return (
     <MyContext.Provider value={value}>

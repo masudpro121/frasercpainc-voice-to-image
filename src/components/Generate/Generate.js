@@ -6,14 +6,9 @@ import { MyContext } from "@/pages/_app";
 import withAuth from "@/HOCS/withAuth";
 import { getLimit, setLimit } from "@/utils/limit";
 function Generate() {
-  
-  
-  const {prompt, setPrompt,  setGeneratedImage, inprogress, setInprogress}  = useContext(MyContext)
- 
   return (
     <div className="  md:max-w-[1000px] m-auto ">
     <MySpeechRecognition />
-    
     </div>
   );
 }
