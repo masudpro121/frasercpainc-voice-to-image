@@ -40,7 +40,7 @@ function signup() {
       })
   };
   return (
-    <div >
+    <div  className="py-10">
       
       <form
         onSubmit={handleSignup}
