@@ -6,7 +6,7 @@ const axios = require("axios");
 
 export default async function handler(req, res) {
   if (req.method == "POST") {
-    const { sample, dimension, prompt, negativePrompt="nude, porn, adult", model } = req.body;
+    const { sample, dimension, prompt, negativePrompt, model } = req.body;
     generate({ sample, dimension, prompt, negativePrompt, model })
       .then(async (result) => {
         res.json(result);
@@ -19,12 +19,12 @@ export default async function handler(req, res) {
 }
 
 const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
-  console.log(prompt, 'called');
+  const defaultNegative = negativePrompt? negativePrompt : "naked, porn, nudity, sex, adult, boobs, pussy, nude,  skimpy clothes, sexy, sexualized"
 
   let imageConfig = {
     key: STABLEDIFFUSION_KEY,
     prompt: prompt,
-    negative_prompt: negativePrompt,
+    negative_prompt: defaultNegative,
     samples: sample,
     num_inference_steps: "20",
     safety_checker: "no",
@@ -46,7 +46,7 @@ const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
       "key": STABLEDIFFUSION_KEY,
       "model_id": model,
       "prompt": prompt,
-      "negative_prompt": negativePrompt,
+      "negative_prompt": defaultNegative,
       "samples": sample,
       "num_inference_steps": "30",
       "safety_checker": "no",

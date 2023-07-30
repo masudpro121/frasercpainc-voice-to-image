@@ -73,9 +73,9 @@ function SocialSignin() {
             <div onClick={googleLogin} className="cursor-pointer">
               <Image src={GoogleLogo} className="w-[40px]" />
             </div>
-            <div onClick={facebookLogin} className="cursor-pointer">
+            {/* <div onClick={facebookLogin} className="cursor-pointer">
               <Image src={FbLogo} className="w-[32px]" />
-            </div>
+            </div> */}
             
           </div>
         </div>

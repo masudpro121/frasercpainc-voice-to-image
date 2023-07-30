@@ -5,9 +5,16 @@ import MySpeechRecognition from "../MySpeechRecognition/MySpeechRecognition";
 import { MyContext } from "@/pages/_app";
 import withAuth from "@/HOCS/withAuth";
 import { getLimit, setLimit } from "@/utils/limit";
+import { useRouter } from "next/router"
+import {BiArrowBack} from 'react-icons/bi'
 function Generate() {
+  const router = useRouter()
   return (
     <div className="  md:max-w-[1000px] m-auto ">
+      {/* <button className="mb-10 bg-purple-500 px-3 rounded-3xl" onClick={()=>router.back()}>
+        <BiArrowBack className="text-2xl font-bold text-purple-500" />
+        Back
+      </button> */}
     <MySpeechRecognition />
     </div>
   );

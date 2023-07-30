@@ -11,7 +11,7 @@ import generateWatermarkImage from "@/utils/generateWatermarkImage";
 import downloadImage from "@/utils/downloadImage";
 
 function ShowImages() {
-  const { generatedImage, inprogress } = useContext(MyContext);
+  const { generatedImage, inprogress, prompt } = useContext(MyContext);
   
 
   const handleCopy = (sImage) => {
@@ -40,7 +40,7 @@ function ShowImages() {
                   <button onClick={() => handleCopy(img)}>
                     <BiSolidCopy className="text-xl cursor-pointer hover:text-slate-100" />
                   </button>
-                  <button onClick={() => generateWatermarkImage(img)}>
+                  <button onClick={() => generateWatermarkImage(img, prompt)}>
                     <IoMdCloudDownload className="text-xl cursor-pointer hover:text-slate-100" />
                   </button>
                 </div>

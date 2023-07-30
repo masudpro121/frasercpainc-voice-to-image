@@ -1,12 +1,12 @@
-const downloadCanvas = function (dataurl) {
+const downloadCanvas = function (dataurl, filename) {
   var link = document.createElement("a");
-  link.download = "filename.png";
+  link.download = filename+".png";
   // link.href = document.getElementById('canvas').toDataURL()
   link.href = dataurl;
   link.click();
 };
 
-const generateWatermarkImage = (sImage) => {
+const generateWatermarkImage = (sImage, prompt) => {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   const originalImage = new Image();
@@ -33,7 +33,7 @@ const generateWatermarkImage = (sImage) => {
       canvasWidth - 50,
       canvasHeight - 10
     );
-    downloadCanvas(canvas.toDataURL());
+    downloadCanvas(canvas.toDataURL(), prompt);
   };
 };
 

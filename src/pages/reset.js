@@ -75,7 +75,7 @@ function reset() {
             className="placeholder:text-white"
           />
           <label className="text-white" htmlFor="security">
-            Last 4 digit of your NID 
+            Mother's  maiden  name
           </label>
           <input
             id="security"
@@ -83,7 +83,7 @@ function reset() {
             required
             onChange={(t) => setSecurityKey(t.target.value)}
             type="text"
-            placeholder="1290"
+            placeholder="Jane Doe"
             className="placeholder:text-white"
           />
           <button className=" bg-purple-500 text-white px-2 py-1 ">Submit</button>

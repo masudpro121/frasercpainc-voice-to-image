@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { MdKeyboardVoice } from "react-icons/md";
 import { FaStop } from "react-icons/fa";
 import { MyContext } from "@/pages/_app";
+import { getLimit, setLimit } from "@/utils/limit";
 function MySpeechRecognition() {
   const {prompt, setPrompt,  setGeneratedImage, inprogress, setInprogress}  = useContext(MyContext)
   const [isListening, setIsListening] = useState(false);
@@ -48,7 +49,7 @@ function MySpeechRecognition() {
   const generateImage = () =>{
     stopListening()
     setInprogress(true)
-    setPrompt('')
+    // setPrompt('')
     setNegativePrompt('')
     const data = {
       sample: 4, prompt, 
