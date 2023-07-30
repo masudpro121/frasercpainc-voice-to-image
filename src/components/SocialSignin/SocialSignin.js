@@ -35,6 +35,7 @@ function SocialSignin() {
         })
         .then((res) => res.json())
         .then((res) => {
+          console.log(res);
           setCookie("token", res.token)
           setCookie("name", res.name)
           setCookie("uid", res.uid)
