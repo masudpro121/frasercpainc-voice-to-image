@@ -1,5 +1,7 @@
 import { STABLEDIFFUSION_KEY } from "@/configs";
 import cloudinaryConnect from "@/libs/cloudiniary";
+import dbConnect from "@/libs/dbConnect";
+import HistoryModel from "@/models/HistoryModel";
 import {v2 as cloudinary} from 'cloudinary';
 const {v4:uuid} = require('uuid')
 
@@ -9,15 +11,27 @@ const axios = require("axios");
 export default async function handler(req, res) {
   if (req.method == "POST") {
     const { sample, dimension, prompt, negativePrompt, model } = req.body;
-    
+    const _id = req.cookies._id
     
     generate({ sample, dimension, prompt, negativePrompt, model })
       .then(async (result) => {
         const uploads = result.output.map((img, i)=>uploadImage(img,`${i} - ${prompt.slice(0,20)} - ${uuid()}`))
         Promise.all(uploads)
-        .then(values=>{
-          console.log(values, 'values');
+        .then( async values=>{
           res.json(result);
+          const newHistory = new HistoryModel({
+            images: values,
+            author: _id
+          })
+          await dbConnect()
+          newHistory.save()
+          .then(his=>{
+            console.log('history saved');
+          })
+          .catch(err=>{
+            console.log(err);
+          })
+          
         })
         .catch(err=>{
           res.json({ status: "something wrong" });
@@ -41,7 +55,7 @@ const uploadImage = async (image, text) => {
         if (err) {
           console.log(err);
         }
-        return resolve(result.url)
+        return resolve(result.secure_url)
       }
     );
  })
@@ -56,7 +70,7 @@ const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
     key: STABLEDIFFUSION_KEY,
     prompt: prompt,
     negative_prompt: defaultNegative,
-    samples: sample,
+    samples: 4,
     num_inference_steps: "20",
     safety_checker: "no",
     enhance_prompt: "yes",
