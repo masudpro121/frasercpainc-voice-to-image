@@ -33,6 +33,7 @@ router.use(upload.single("file")).post(async (req, res) => {
     (err, result) => {
       if(result){
         console.log('uploaded');
+        fs.unlinkSync(req.file.path)
       }
       if (err) {
         console.log(err);
