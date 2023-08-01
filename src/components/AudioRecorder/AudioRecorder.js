@@ -18,12 +18,23 @@ function AudioRecorder() {
     recorder
     .stop()
     .getMp3().then(([buffer, blob])=>{
-      const file = new File(buffer, 'me-at-thevoice.mp3', {
+      const file = new File(buffer, 'audio.mp3', {
         type: blob.type,
         lastModified: Date.now()
       })
       const player = new Audio(URL.createObjectURL(file));
       player.play();
+
+      const formData = new FormData();
+      formData.append('file', file);
+      fetch('/api/test', {
+        method:"POST",
+        body: formData
+      })
+      .then(res=>res.json())
+      .then(f=>{
+        console.log(f, 'form');
+      })
     })
   }
 
@@ -31,7 +42,6 @@ function AudioRecorder() {
 
   return (
     <div>
-      
       <button onClick={startRecord}>Start</button>
       <button onClick={stopRecord}>Stop</button>
     </div>

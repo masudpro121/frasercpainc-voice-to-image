@@ -13,38 +13,45 @@ export default async function handler(req, res) {
     const { sample, dimension, prompt, negativePrompt, model } = req.body;
     const _id = req.cookies._id
     
-    generate({ sample, dimension, prompt, negativePrompt, model })
-      .then(async (result) => {
-        const uploads = result.output.map((img, i)=>uploadImage(img,`${i} - ${prompt.slice(0,20)} - ${uuid()}`))
-        Promise.all(uploads)
-        .then( async values=>{
-          res.json(result);
-          const newHistory = new HistoryModel({
-            images: values,
-            author: _id
-          })
-          await dbConnect()
-          newHistory.save()
-          .then(his=>{
-            console.log('history saved');
-          })
-          .catch(err=>{
-            console.log(err);
-          })
+    // generate({ sample, dimension, prompt, negativePrompt, model })
+    //   .then(async (result) => {
+    //     res.json(result);
+        
+    //     const uploads = result.output.map((img, i)=>uploadImage(img,`${i} - ${prompt.slice(0,20)} - ${uuid()}`))
+
+    //     Promise.all(uploads)
+    //     .then( async values=>{
+    //       const newHistory = new HistoryModel({
+    //         prompt,
+    //         images: values,
+    //         author: _id
+    //       })
+
+    //       await dbConnect()
+    //       newHistory.save()
+    //       .then(his=>{
+    //         console.log('history saved');
+    //       })
+    //       .catch(err=>{
+    //         console.log(err);
+    //       })
           
-        })
-        .catch(err=>{
-          res.json({ status: "something wrong" });
-          console.log(err);
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-        res.json({ status: "something wrong" });
-      });
+    //     })
+    //     .catch(err=>{
+    //       res.json({ status: "something wrong" });
+    //       console.log(err);
+    //     })
+    //   }).catch((err) => {
+    //     console.log(err);
+    //     res.json({ status: "something wrong" });
+    //   });
   }
 }
 
+
+
+
+// Upload Image 
 const uploadImage = async (image, text) => {
   await cloudinaryConnect();
   return new Promise((resolve, reject)=>{
@@ -61,6 +68,7 @@ const uploadImage = async (image, text) => {
  })
 };
 
+// Generate Image 
 const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
   const defaultNegative = negativePrompt
     ? negativePrompt

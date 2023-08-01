@@ -3,6 +3,7 @@ import { MdKeyboardVoice } from "react-icons/md";
 import { FaStop } from "react-icons/fa";
 import { MyContext } from "@/pages/_app";
 import { getLimit, setLimit } from "@/utils/limit";
+
 function MySpeechRecognition() {
   const {prompt, setPrompt,  setGeneratedImage, inprogress, setInprogress}  = useContext(MyContext)
   const [isListening, setIsListening] = useState(false);
@@ -11,7 +12,6 @@ function MySpeechRecognition() {
   const [model, setModel] = useState('')
 
   const setPromptHandler = (text) => {
-   
     if(true){
       setPrompt(text)
     }
@@ -24,6 +24,7 @@ function MySpeechRecognition() {
     }
     setPromptHandler(texts.join(" "))
   };
+
   useEffect(()=>{
     if("webkitSpeechRecognition" in global){
       let rec = new webkitSpeechRecognition()
@@ -34,6 +35,8 @@ function MySpeechRecognition() {
     }
   },[])
   
+
+ 
 
   const startListening = () => {
     setPrompt("");
@@ -60,6 +63,9 @@ function MySpeechRecognition() {
       //   height: 520
       // },
     }
+
+ 
+    // API Call
     fetch('/api/generate-image', {
       method: 'POST',
       headers: {
@@ -132,3 +138,6 @@ function MySpeechRecognition() {
 }
 
 export default MySpeechRecognition;
+
+
+
