@@ -16,8 +16,8 @@ function Generate() {
         <BiArrowBack className="text-2xl font-bold text-purple-500" />
         Back
       </button> */}
-    {/* <MySpeechRecognition /> */}
-    <AudioRecorder />
+    <MySpeechRecognition />
+    {/* <AudioRecorder /> */}
     </div>
   );
 }

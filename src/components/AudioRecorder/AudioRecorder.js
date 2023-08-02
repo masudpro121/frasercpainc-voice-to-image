@@ -14,7 +14,7 @@ function AudioRecorder() {
       console.error(e);
     });
   }
-  const stopRecord = () =>{
+ const stopRecord = () =>{
     recorder
     .stop()
     .getMp3().then(([buffer, blob])=>{
@@ -27,6 +27,7 @@ function AudioRecorder() {
 
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('text', "hello world");
       fetch('/api/test', {
         method:"POST",
         body: formData

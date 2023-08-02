@@ -3,50 +3,69 @@ import cloudinaryConnect from "@/libs/cloudiniary";
 import dbConnect from "@/libs/dbConnect";
 import HistoryModel from "@/models/HistoryModel";
 import {v2 as cloudinary} from 'cloudinary';
+const fs = require('fs')
+import multer from "multer";
 const {v4:uuid} = require('uuid')
-
+const path = require('path')
 require("dotenv").config();
 const axios = require("axios");
+import { createRouter, expressWrapper } from "next-connect";
+const router = createRouter();
 
-export default async function handler(req, res) {
-  if (req.method == "POST") {
-    const { sample, dimension, prompt, negativePrompt, model } = req.body;
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.join(process.cwd(), "uploads"));
+    },
+    filename: function (req, file, cb) {
+      cb(null, new Date().getTime() + "-" + file.originalname);
+    },
+  }),
+});
+
+router
+.use(upload.single('file'))
+.post(async (req, res)=>{
+  const { sample, dimension, prompt, negativePrompt, model } = req.body;
     const _id = req.cookies._id
     
-    // generate({ sample, dimension, prompt, negativePrompt, model })
-    //   .then(async (result) => {
-    //     res.json(result);
+    generate({ sample, dimension, prompt, negativePrompt, model })
+      .then(async (result) => {
+        res.json(result);
         
-    //     const uploads = result.output.map((img, i)=>uploadImage(img,`${i} - ${prompt.slice(0,20)} - ${uuid()}`))
+        const audio = await uploadAudio(req.file?.path, req.file?.filename)
+        console.log(audio);
+        const uploads = result.output.map((img, i)=>uploadImage(img,`${i} - ${prompt.slice(0,20)} - ${uuid()}`))
 
-    //     Promise.all(uploads)
-    //     .then( async values=>{
-    //       const newHistory = new HistoryModel({
-    //         prompt,
-    //         images: values,
-    //         author: _id
-    //       })
+        Promise.all(uploads)
+        .then( async values=>{
+          const newHistory = new HistoryModel({
+            prompt,
+            images: values,
+            audio: audio?.secure_url,
+            author: _id
+          })
 
-    //       await dbConnect()
-    //       newHistory.save()
-    //       .then(his=>{
-    //         console.log('history saved');
-    //       })
-    //       .catch(err=>{
-    //         console.log(err);
-    //       })
+          await dbConnect()
+          newHistory.save()
+          .then(his=>{
+            console.log('history saved');
+          })
+          .catch(err=>{
+            console.log(err);
+          })
           
-    //     })
-    //     .catch(err=>{
-    //       res.json({ status: "something wrong" });
-    //       console.log(err);
-    //     })
-    //   }).catch((err) => {
-    //     console.log(err);
-    //     res.json({ status: "something wrong" });
-    //   });
-  }
-}
+        })
+        .catch(err=>{
+          res.json({ status: "something wrong" });
+          console.log(err);
+        })
+      }).catch((err) => {
+        console.log(err);
+        res.json({ status: "something wrong" });
+      });
+})
+
 
 
 
@@ -68,11 +87,34 @@ const uploadImage = async (image, text) => {
  })
 };
 
+const uploadAudio = async (fPath, filename) => {
+  return new  Promise((resolve, reject)=> {
+     cloudinary.uploader.upload(
+      fPath,
+      {
+        folder: "audio", public_id: filename,
+        resource_type: "video",
+        transformation: [{ audio_codec: "mp3", bit_rate: "128k" }],
+      },
+      (err, result) => {
+        if(result){
+          resolve(result)
+          console.log('uploaded');
+          fs.unlinkSync(fPath)
+        }
+        if (err) {
+          console.log(err);
+        }
+      }
+    );
+  })
+}
+
 // Generate Image 
 const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
   const defaultNegative = negativePrompt
     ? negativePrompt
-    : "naked, porn, nudity, sex, adult, boobs, pussy, nude,  skimpy clothes, sexy, sexualized";
+    : "naked, porn, nudity, sex, adult, boobs, pussy, nude,  skimpy clothes, sexy, sexualized, hot, boob, breast";
 
   let imageConfig = {
     key: STABLEDIFFUSION_KEY,
@@ -166,3 +208,18 @@ const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
       });
   });
 };
+
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+
+export default router.handler({
+  onError: (err, req, res) => {
+    console.error(err.stack);
+    res.status(err.statusCode || 500).end(err.message);
+  },
+});

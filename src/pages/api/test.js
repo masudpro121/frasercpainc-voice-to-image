@@ -21,26 +21,28 @@ const upload = multer({
 });
 
 const router = createRouter();
-router.use(upload.single("file")).post(async (req, res) => {
-  await cloudinaryConnect();
-  await cloudinary.uploader.upload(
-    req.file.path,
-    {
-      folder: "audio", public_id: req.file.filename,
-      resource_type: "video",
-      transformation: [{ audio_codec: "mp3", bit_rate: "128k" }],
-    },
-    (err, result) => {
-      if(result){
-        console.log('uploaded');
-        fs.unlinkSync(req.file.path)
-      }
-      if (err) {
-        console.log(err);
-      }
-    }
-  );
-
+router
+.use(upload.single("file"))
+.post(async (req, res) => {
+  // await cloudinaryConnect();
+  // await cloudinary.uploader.upload(
+  //   req.file.path,
+  //   {
+  //     folder: "audio", public_id: req.file.filename,
+  //     resource_type: "video",
+  //     transformation: [{ audio_codec: "mp3", bit_rate: "128k" }],
+  //   },
+  //   (err, result) => {
+  //     if(result){
+  //       console.log('uploaded');
+  //       fs.unlinkSync(req.file.path)
+  //     }
+  //     if (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  // );
+  
 
 });
 
