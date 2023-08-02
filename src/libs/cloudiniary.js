@@ -13,6 +13,7 @@ async function cloudinaryConnect () {
         api_key: '634977678565211', 
         api_secret:  process.env.CLOUDINARY_SECRET
       });
+      isConnected = true
       resolve('Connected')
     }else{
       console.log('already connected cloudinary');

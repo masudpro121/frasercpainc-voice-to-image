@@ -18,7 +18,7 @@ const upload = multer({
       cb(null, path.join(process.cwd(), "uploads"));
     },
     filename: function (req, file, cb) {
-      cb(null, new Date().getTime() + "-" + file.originalname);
+      cb(null, ""+Math.random()*new Date().getTime());
     },
   }),
 });
@@ -28,12 +28,11 @@ router
 .post(async (req, res)=>{
   const { sample, dimension, prompt, negativePrompt, model } = req.body;
     const _id = req.cookies._id
-    
     generate({ sample, dimension, prompt, negativePrompt, model })
       .then(async (result) => {
         res.json(result);
         
-        const audio = await uploadAudio(req.file?.path, req.file?.filename)
+        const audio = await uploadAudio(req.file?.path, req.file?.filename, prompt)
         console.log(audio);
         const uploads = result.output.map((img, i)=>uploadImage(img,`${i} - ${prompt.slice(0,20)} - ${uuid()}`))
 
@@ -57,12 +56,10 @@ router
           
         })
         .catch(err=>{
-          res.json({ status: "something wrong" });
           console.log(err);
         })
       }).catch((err) => {
         console.log(err);
-        res.json({ status: "something wrong" });
       });
 })
 
@@ -87,12 +84,14 @@ const uploadImage = async (image, text) => {
  })
 };
 
-const uploadAudio = async (fPath, filename) => {
-  return new  Promise((resolve, reject)=> {
+const uploadAudio = async (fPath, filename, prompt) => {
+  const shortPrompt = prompt.slice(0,20)
+  return new  Promise(async (resolve, reject)=> {
+    await cloudinaryConnect();
      cloudinary.uploader.upload(
       fPath,
       {
-        folder: "audio", public_id: filename,
+        folder: "audio", public_id: `${shortPrompt.replace(" ","-")} - ${filename}`,
         resource_type: "video",
         transformation: [{ audio_codec: "mp3", bit_rate: "128k" }],
       },
