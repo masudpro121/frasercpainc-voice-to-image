@@ -4,14 +4,22 @@ import dbConnect from "@/libs/dbConnect";
 import HistoryModel from "@/models/HistoryModel";
 import {v2 as cloudinary} from 'cloudinary';
 const fs = require('fs')
-import multer from "multer";
+const multer = require("multer")
 const {v4:uuid} = require('uuid')
 const path = require('path')
-require("dotenv").config();
 const axios = require("axios");
+require("dotenv").config();
 import { createRouter, expressWrapper } from "next-connect";
-const router = createRouter();
 
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+
+const router = createRouter();
 const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -23,44 +31,47 @@ const upload = multer({
   }),
 });
 
-router
-.use(upload.single('file'))
-.post(async (req, res)=>{
+// const upload2 = multer({ storage: multer.memoryStorage() })
+router.use(upload.single()).post(async (req, res)=>{
   const { sample, dimension, prompt, negativePrompt, model } = req.body;
     const _id = req.cookies._id
-    generate({ sample, dimension, prompt, negativePrompt, model })
-      .then(async (result) => {
-        res.json(result);
+
+   console.log(req.body);
+   console.log( req.file);
+    // generate({ sample, dimension, prompt, negativePrompt, model })
+    //   .then(async (result) => {
         
-        const audio = await uploadAudio(req.file?.path, req.file?.filename, prompt)
-        console.log(audio);
-        const uploads = result.output.map((img, i)=>uploadImage(img,`${i} - ${prompt.slice(0,20)} - ${uuid()}`))
+        
+    //     const uploads = result.output.map((img, i)=>uploadImage(img,`${i} - ${prompt?.slice(0,20)} - ${uuid()}`))
+    //     // const audio = await uploadAudio(req.file?.path, req.file?.filename, prompt)
 
-        Promise.all(uploads)
-        .then( async values=>{
-          const newHistory = new HistoryModel({
-            prompt,
-            images: values,
-            audio: audio?.secure_url,
-            author: _id
-          })
+    //     Promise.all(uploads)
+    //     .then( async values=>{
+    //       const newHistory = new HistoryModel({
+    //         prompt,
+    //         images: values,
+    //         // audio: audio?.secure_url,
 
-          await dbConnect()
-          newHistory.save()
-          .then(his=>{
-            console.log('history saved');
-          })
-          .catch(err=>{
-            console.log(err);
-          })
+    //         author: _id
+    //       })
+
+    //       await dbConnect()
+    //       newHistory.save()
+    //       .then(his=>{
+    //         res.json(result);
+    //         console.log('history saved');
+    //       })
+    //       .catch(err=>{
+    //         console.log(err);
+    //       })
           
-        })
-        .catch(err=>{
-          console.log(err);
-        })
-      }).catch((err) => {
-        console.log(err);
-      });
+    //     })
+    //     .catch(err=>{
+    //       console.log(err);
+    //     })
+    //   }).catch((err) => {
+    //     console.log(err);
+    //   });
 })
 
 
@@ -78,6 +89,7 @@ const uploadImage = async (image, text) => {
         if (err) {
           console.log(err);
         }
+        console.log(result);
         return resolve(result.secure_url)
       }
     );
@@ -98,6 +110,7 @@ const uploadAudio = async (fPath, filename, prompt) => {
       (err, result) => {
         if(result){
           resolve(result)
+          console.log(result)
           console.log('uploaded');
           fs.unlinkSync(fPath)
         }
@@ -119,7 +132,7 @@ const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
     key: STABLEDIFFUSION_KEY,
     prompt: prompt,
     negative_prompt: defaultNegative,
-    samples: 4,
+    samples: 1,
     num_inference_steps: "20",
     safety_checker: "no",
     enhance_prompt: "yes",
@@ -209,11 +222,6 @@ const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
 };
 
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 
 export default router.handler({
