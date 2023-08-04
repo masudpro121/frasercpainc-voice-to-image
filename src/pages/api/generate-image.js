@@ -19,33 +19,18 @@ export const config = {
 };
 
 const router = createRouter();
-const upload2 = multer({
-  storage: multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, path.join(process.cwd(), "uploads"));
-    },
-    filename: function (req, file, cb) {
-      cb(null, "" + Math.random() * new Date().getTime());
-    },
-  }),
-});
 
 const upload = multer({ storage: multer.memoryStorage() });
 router.use(upload.single("file")).post(async (req, res) => {
   const { sample, dimension, prompt, negativePrompt, model } = req.body;
   const _id = req.cookies._id;
 
-  console.log(req.body);
-  console.log(req.file);
   generate({ sample, dimension, prompt, negativePrompt, model })
     .then(async (result) => {
       const uploads = result.output.map((img, i) =>
         uploadImage(img, `${i} - ${prompt?.slice(0, 20)} - ${uuid()}`)
       );
-      const audio = await uploadAudio(
-        prompt,
-        req.file.buffer
-      );
+      const audio = await uploadAudio(prompt, req.file.buffer);
 
       Promise.all(uploads)
         .then(async (values) => {
@@ -71,10 +56,14 @@ router.use(upload.single("file")).post(async (req, res) => {
         .catch((err) => {
           console.log(err);
         });
+
+       
+      
     })
     .catch((err) => {
       console.log(err);
     });
+    
 });
 
 // Upload Image
@@ -88,13 +77,13 @@ const uploadImage = async (image, text) => {
         if (err) {
           console.log(err);
         }
-        return resolve(result.secure_url);
+        return resolve(result?.secure_url);
       }
     );
   });
 };
 
-const uploadAudio = async ( prompt, buffer) => {
+const uploadAudio = async (prompt, buffer) => {
   const shortPrompt = prompt.slice(0, 20);
   return new Promise(async (resolve, reject) => {
     await cloudinaryConnect();
@@ -120,7 +109,10 @@ const uploadAudio = async ( prompt, buffer) => {
     // );
     const cld_upload_stream = cloudinary.uploader.upload_stream(
       {
-        folder: "audio", public_id: `${shortPrompt.replace(" ","-")}-${Math.random()*new Date().getTime()}`,
+        folder: "audio",
+        public_id: `${shortPrompt.replace(" ", "-")}-${
+          Math.random() * new Date().getTime()
+        }`,
         resource_type: "video",
         transformation: [{ audio_codec: "mp3", bit_rate: "128k" }],
       },
@@ -149,7 +141,7 @@ const generate = ({ sample, dimension, prompt, negativePrompt, model }) => {
     key: STABLEDIFFUSION_KEY,
     prompt: prompt,
     negative_prompt: defaultNegative,
-    samples: 1,
+    samples: sample,
     num_inference_steps: "20",
     safety_checker: "no",
     enhance_prompt: "yes",
