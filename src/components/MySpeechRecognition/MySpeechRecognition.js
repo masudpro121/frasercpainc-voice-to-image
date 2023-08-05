@@ -43,28 +43,30 @@ function MySpeechRecognition() {
 
   const startListening = () => {
     setPrompt("");
-    startRecord()
-    // recognition.start();
+    recognition.stop()
+    recognition.start();
+    // startRecord()
     console.log(recognition);
     setIsListening(true);
   };
   
  
   const stopListening = async() => {
-    // recognition.stop();
-      let recordedAudio = await stopRecord()
       setIsListening(false);
-    
-    const formData = new FormData()
-    formData.append('file', recordedAudio)
-    const t = await fetch('/api/transcription', {
-      method: 'POST',
-      body: formData
-    })
-    const transcript = await t.json()
-    await setPrompt(transcript.text)
-    return {audio: recordedAudio, transcript}
+      recognition.stop();
 
+    // let recordedAudio = await stopRecord()
+
+    // const formData = new FormData()
+    // formData.append('file', recordedAudio)
+    // const t = await fetch('/api/transcription', {
+    //   method: 'POST',
+    //   body: formData
+    // })
+    // const transcript = await t.json()
+    // await setPrompt(transcript.text)
+    // return {audio: recordedAudio, transcript}
+    // return {audio: recordedAudio}
   };
 
   const generateImage = async() =>{
@@ -86,8 +88,9 @@ function MySpeechRecognition() {
 
     const formData = new FormData()
     formData.append('sample', 4)
-    formData.append('prompt', listening.transcript.text)
-    formData.append('file', listening.audio)
+    formData.append('prompt', prompt)
+    
+    // formData.append('file', listening.audio)
   
     // formData.append('negativePrompt', '')
     // formData.append('width', 520)
@@ -134,11 +137,11 @@ function MySpeechRecognition() {
               className="hover:text-purple-200 cursor-pointer text-3xl text-white "
             />
           </button>
-          {/* <FaStop
+          <FaStop
             title="Stop Listening"
             onClick={stopListening}
             className="cursor-pointer text-xl hover:text-red-500 text-red-400"
-          /> */}
+          />
         </div>
       </div>
       <div>
