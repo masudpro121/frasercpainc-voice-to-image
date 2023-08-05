@@ -19,10 +19,21 @@ export const config = {
 };
 
 const router = createRouter();
+const upload2 = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.join(process.cwd(), "uploads"));
+    },
+    filename: function (req, file, cb) {
+      cb(null, "" + Math.random() * new Date().getTime());
+    },
+  }),
+});
 
 const upload = multer({ storage: multer.memoryStorage() });
 router.use(upload.single("file")).post(async (req, res) => {
   const { sample, dimension, prompt, negativePrompt, model } = req.body;
+  console.log(prompt, 'prompt');
   const _id = req.cookies._id;
 
   generate({ sample, dimension, prompt, negativePrompt, model })
