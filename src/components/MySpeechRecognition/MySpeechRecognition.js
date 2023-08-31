@@ -99,7 +99,7 @@ function MySpeechRecognition() {
     // formData.append('height', 520)
 
     // API Call
-   generateMidjourneyImage(formData)
+   generateMidjourneyImage(formData, prompt)
     .then(res=>{
       if(res){
         setGeneratedImage({ output: res})

@@ -39,7 +39,7 @@ router.use(upload.single("file")).post(async (req, res) => {
 
 
 
-const generate = ({  prompt }) => {
+const generate = (prompt) => {
   
   return new Promise(async(resolve, reject) => {
     const response = await axios.post("https://api.thenextleg.io/v2/imagine",{

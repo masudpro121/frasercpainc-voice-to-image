@@ -1,6 +1,6 @@
 import checkMidjourneyImage from "./checkMidjourneyImage"
 
-const generateMidjourneyImage = (formData) => {
+const generateMidjourneyImage = (formData, prompt) => {
   return new Promise((resolve, reject)=>{
     fetch('/api/generate-midjourney-image', {
       method: 'POST', 
@@ -13,12 +13,15 @@ const generateMidjourneyImage = (formData) => {
         console.log('20 second done');
         let myInterval = setInterval(()=>{
           console.log('interval');
-          checkMidjourneyImage(res.messageId)
+          checkMidjourneyImage({msgId:res.messageId})
           .then(checkRes=>{
             if(checkRes.progress==100){
               clearInterval(myInterval)
               resolve(checkRes.images)
             }
+          })
+          .catch(err=>{
+            clearInterval(myInterval)
           })
         }, 10000)
       }, 20000)

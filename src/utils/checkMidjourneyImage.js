@@ -1,5 +1,5 @@
-const checkMidjourneyImage = (msgid) => {
-  return fetch('/api/check-midjourney-image?id='+msgid)
+const checkMidjourneyImage = ({msgId}) => {
+  return fetch('/api/check-midjourney-image?id='+msgId)
   .then(res=>res.json())
   .then(res=>{
     if(res.progress == 100){
