@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 export const MyContext = createContext();
 export default function App({ Component, pageProps }) {
   const [prompt, setPrompt] = useState("");
-  const [generatedImage, setGeneratedImage] = useState({});
+  const [generatedImage, setGeneratedImage] = useState({output:["https://cdn.midjourney.com/bcf7b4fa-8bf5-451e-ab3c-114be787477b/0_3.png",]});
   const [inprogress, setInprogress] = useState(false);
   const [user, setUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState("null")
