@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import generateMidjourneyImage from "@/utils/generateMidjourneyImage";
 import checkMidjourneyImage from "@/utils/checkMidjourneyImage";
 function MySpeechRecognition() {
-  const {prompt, setPrompt,  setGeneratedImage, inprogress, setInprogress}  = useContext(MyContext)
+  const {prompt, setPrompt,  setGeneratedImage, setProgressData, inprogress, setInprogress}  = useContext(MyContext)
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null)
   const [negativePrompt, setNegativePrompt] = useState('')
@@ -73,7 +73,7 @@ function MySpeechRecognition() {
 
   const generateImage = async() =>{
     let listening = await stopListening()
-   
+    setGeneratedImage({})
     setInprogress(true)
     // setPrompt('')
     setNegativePrompt('')
@@ -101,18 +101,36 @@ function MySpeechRecognition() {
     // API Call
    generateMidjourneyImage(formData, prompt)
     .then(res=>{
-      if(res){
-        setGeneratedImage({ output: res})
-        
-        if(getLimit()){
-          setLimit(Number(getLimit())+1)
-        }else{
-          setLimit(1)
-        }
+      setInprogress(true)
+      setTimeout(()=>{
+       
+        console.log('20 second done');
+        let myInterval = setInterval(()=>{
+          console.log('interval');
+          
+          checkMidjourneyImage({msgId:res.messageId})
+          .then(checkRes=>{
+            console.log(checkRes, 'checkres');
+            if(checkRes.progress==100){
+              clearInterval(myInterval)
+              setGeneratedImage({ output: checkRes.images})
+              setProgressData({})
+            }else if(checkRes.progress > 0){
+              setInprogress(false)
+              setProgressData(checkRes)
+            }
+          })
+          .catch(err=>{
+            clearInterval(myInterval)
+          })
+        }, 10000)
+      }, 10000)
+
+      if(getLimit()){
+        setLimit(Number(getLimit())+1)
       }else{
-        toast('Something wrong! Try again.')
+        setLimit(1)
       }
-      setInprogress(false)
       
     })
 

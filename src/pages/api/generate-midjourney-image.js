@@ -48,7 +48,7 @@ const generate = (prompt) => {
       "webhookOverride": ""
     }, {
       headers:  {
-        Authorization : 'Bearer f1cd0d27-a07c-4b8b-b08c-a4f3a64e93f7',
+        Authorization : process.env.NEXTLEG_KEY,
         'Content-Type': 'application/json'
       }
     })
